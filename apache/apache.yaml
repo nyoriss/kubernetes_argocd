@@ -6,7 +6,7 @@ metadata:
   labels:
     app: papache
 spec:
-  replicas: 1
+  replicas: 6
   selector:
     matchLabels:
       app: papache
@@ -35,7 +35,7 @@ spec:
   type: LoadBalancer
   ports:
   - name: web
-    port: 8086
+    port: 8085
     targetPort: 80
     protocol: TCP
   selector: 
