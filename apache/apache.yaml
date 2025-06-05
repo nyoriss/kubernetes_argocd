@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: papache
+  namespace: web
+  labels:
+    app: papache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: papache
+  template:
+    metadata:
+      labels:
+        app: papache
+    spec:
+      containers: 
+      - name: papache
+        image: httpd:2.4.62-alpine3.21
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "10m"
+        ports: 
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: papache-svc
+  namespace: web
+spec: 
+  type: LoadBalancer
+  ports:
+  - name: web
+    ports: 8085
+    targetPort: 80
+    protocol: TCP
+  selector: 
+    app: papache
