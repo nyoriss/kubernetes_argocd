@@ -30,9 +30,24 @@ spec:
       labels:
         app: luanti
     spec:
-      volumes: 
-        - name: luanti-data
-          persistantVolumeClaim: luanti-data-pvc
+      initContainers: 
+      - name: minetest-git-clone
+        image: alpine/git:2.49.0
+        command:
+          - sh
+          - -c
+          - |
+            GDIR=/config/.minetest/games
+            echo "cleaning old worlds"
+            [ -f /config/.minetes/purged ] && echo "already purged" || rm -rf /config/.minetest/worlds/world
+            touch /config/.minetest/purged
+            echo "done"
+            echo "cloning ctf game"
+            [ -d /config/.minetest/games/ctf ] && echo "already present" || git clone --recursive https://github.com/MT-CTF/capturetheflag $GDIR/ctf
+            echo "done"
+        volumeMounts:
+          - mountPath: /config/.minetest
+            name: minetest-data
       containers:
         - name: luanti
           image: lscr.io/linuxserver/luanti:latest
@@ -43,6 +58,8 @@ spec:
               values: "1000"
             - name: PGID
               values: "1000"
+            - name: CLI_ARGS
+              values: "--gameid ctf"
           resources:
             requests:
               memory: "64Mi"
