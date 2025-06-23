@@ -51,7 +51,7 @@ spec:
               git clone --recursive https://github.com/MT-CTF/capturetheflag /config/.minetest/games/ctf
               echo "coucou"
           volumeMounts:
-            - name: luanti-data-data
+            - name: luanti-data
               mountPath: /config/.minetest
       containers:
         - name: luanti
@@ -73,7 +73,7 @@ spec:
             - containerPort: 30000
               protocol: UDP
           volumeMounts:
-            - name: luanti-data-data
+            - name: luanti-data
               mountPath: /config/.minetest
 ---
 apiVersion: v1
