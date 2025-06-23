@@ -47,7 +47,7 @@ spec:
             echo "done"
         volumeMounts:
           - mountPath: /config/.minetest
-            name: minetest-data
+            name: luanti-data-pvc
       containers:
         - name: luanti
           image: lscr.io/linuxserver/luanti:latest
@@ -68,7 +68,7 @@ spec:
             - containerPort: 30000
               protocol: UDP
           volumeMounts:
-            - name: luanti-data
+            - name: luanti-data-pvc
               mountPath: /config/.minetest
 ---
 apiVersion: v1
